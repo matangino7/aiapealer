@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Firestore, collection, collectionData, doc, setDoc, updateDoc, deleteDoc, getDoc, DocumentData, query, where } from '@angular/fire/firestore';
+import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
+import { Observable, from, map, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { ExamAppeal, ExamAppealFormData } from '../models/exam-appeal.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +34,13 @@ export class ExamAppealService {
     }
   ];
 
-  constructor() {}
+  private appealsCollection = 'appeals';
+
+  constructor(
+    private firestore: Firestore,
+    private storage: Storage,
+    private authService: AuthService
+  ) {}
 
   getAppeals(): Observable<ExamAppeal[]> {
     return of(this.mockAppeals).pipe(delay(1000));
@@ -46,7 +55,17 @@ export class ExamAppealService {
   }
 
   getUserAppeals(): Observable<ExamAppeal[]> {
-    return of(this.mockAppeals).pipe(delay(1000));
+    const user = this.authService.userSubject.value;
+    if (!user) {
+      return of([]);
+    }
+
+    const appealsRef = collection(this.firestore, this.appealsCollection);
+    const userAppealsQuery = query(appealsRef, where('userId', '==', user.uid));
+    
+    return collectionData(userAppealsQuery, { idField: 'id' }).pipe(
+      map(appeals => appeals.map(appeal => this.convertToExamAppeal(appeal as DocumentData & { id: string })))
+    );
   }
 
   createAppeal(formData: ExamAppealFormData): Observable<ExamAppeal> {
@@ -108,5 +127,29 @@ export class ExamAppealService {
     }
     
     return of(updatedAppeal).pipe(delay(1500));
+  }
+
+  private convertToExamAppeal(appeal: DocumentData & { id: string }): ExamAppeal {
+    return {
+      id: appeal.id,
+      userId: appeal.userId,
+      title: appeal.title,
+      description: appeal.description,
+      examImageUrl: appeal.examImageUrl,
+      appealText: appeal.appealText,
+      status: appeal.status,
+      createdAt: new Date(appeal.createdAt.toDate()),
+      updatedAt: new Date(appeal.updatedAt.toDate()),
+      feedback: appeal.feedback,
+      score: appeal.score,
+      originalScore: appeal.originalScore,
+      subject: appeal.subject,
+      course: appeal.course,
+      institution: appeal.institution,
+      examName: appeal.examName,
+      courseCode: appeal.courseCode,
+      currentGrade: appeal.currentGrade,
+      targetGrade: appeal.targetGrade
+    };
   }
 } 

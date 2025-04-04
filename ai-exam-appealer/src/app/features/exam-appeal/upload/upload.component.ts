@@ -38,7 +38,7 @@ export class UploadComponent {
   isDragging = false;
 
   private readonly maxFileSize = 10 * 1024 * 1024; // 10MB
-  private readonly allowedFileTypes = ['.pdf', '.doc', '.docx'];
+  private readonly allowedFileTypes = ['.pdf', '.doc', '.docx', '.png', '.jpg', '.jpeg', '.jpeg', '.txt'];
 
   constructor(
     private fb: FormBuilder,
@@ -101,7 +101,7 @@ export class UploadComponent {
     // Check file type
     const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
     if (!this.allowedFileTypes.includes(fileExtension)) {
-      this.snackBar.open('Only PDF, DOC, and DOCX files are allowed', 'Close', {
+      this.snackBar.open('Only PDF, DOC, DOCX, PNG, JPG, and TXT files are allowed', 'Close', {
         duration: 5000,
         panelClass: 'error-snackbar'
       });
@@ -121,7 +121,7 @@ export class UploadComponent {
         const examName = this.uploadForm.get('examName')?.value;
         const courseCode = this.uploadForm.get('courseCode')?.value;
         
-        // Upload the file first
+        // Upload the file first to Firebase Storage
         this.uploadProgress = 20;
         const fileUrl = await this.examAppealService.uploadExamAppeal(
           this.selectedFile, 
@@ -134,10 +134,12 @@ export class UploadComponent {
           title: examName,
           description: `Appeal for ${examName} (${courseCode})`,
           examImageUrl: fileUrl,
-          subject: courseCode
+          subject: courseCode,
+          course: courseCode,
+          originalScore: 0
         };
         
-        // Create the appeal
+        // Create the appeal in Firestore
         this.uploadProgress = 50;
         const appeal = await this.examAppealService.createAppeal(appealFormData);
 

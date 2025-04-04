@@ -1,18 +1,23 @@
 export interface ExamAppeal {
   id: string;
   userId: string;
-  examImageUrl: string;
-  extractedText: string;
-  aiResponse: string;
-  status: 'pending' | 'processing' | 'completed' | 'failed';
+  title: string;
+  description: string;
+  examImageUrl?: string;
+  appealText: string;
+  status: 'processing' | 'completed' | 'failed';
   createdAt: Date;
   updatedAt: Date;
-  metadata?: {
-    examType?: string;
-    courseCode?: string;
-    semester?: string;
-    year?: number;
-  };
+  feedback?: string;
+  score?: number;
+  originalScore?: number;
+  subject?: string;
+  course?: string;
+  institution?: string;
+  examName: string;
+  courseCode: string;
+  currentGrade: number;
+  targetGrade: number;
 }
 
 export interface ExamAppealFormData {
@@ -23,4 +28,8 @@ export interface ExamAppealFormData {
   course?: string;
   institution?: string;
   originalScore?: number;
+  examName?: string;
+  courseCode?: string;
+  currentGrade?: number;
+  targetGrade?: number;
 } 

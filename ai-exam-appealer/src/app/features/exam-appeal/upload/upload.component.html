@@ -44,7 +44,7 @@
           type="file"
           id="file"
           (change)="onFileSelected($event)"
-          accept=".pdf,.doc,.docx"
+          accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.txt"
           class="file-input"
           #fileInput
         >
@@ -58,7 +58,7 @@
           <ng-container *ngIf="!selectedFile">
             <div class="upload-text">
               <span class="primary-text">Choose a file</span> or drag it here
-              <div class="secondary-text">PDF, DOC, DOCX (max. 10MB)</div>
+              <div class="secondary-text">PDF, DOC, DOCX, PNG, JPG, TXT (max. 10MB)</div>
             </div>
           </ng-container>
           <ng-container *ngIf="selectedFile">
