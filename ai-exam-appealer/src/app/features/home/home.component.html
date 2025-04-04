@@ -1,0 +1,77 @@
+<div class="home-container" @fadeIn>
+  <div class="hero-section">
+    <div class="hero-content" @slideInFromLeft>
+      <div class="hero-badge" [@pulseAnimation]="pulseState">AI-Powered Exam Appeals</div>
+      <h1 class="hero-title">{{ animatedTitle$ | async }}</h1>
+      <p class="hero-subtitle">Our advanced AI analyzes your exam answers and generates professional appeal documents with supporting arguments and evidence.</p>
+      
+      <div class="hero-actions">
+        <ng-container *ngIf="currentUser$ | async as user; else loginButtons">
+          <button mat-flat-button color="primary" routerLink="/dashboard" class="action-button primary-button" [@pulseAnimation]="pulseState">
+            <mat-icon>dashboard</mat-icon>
+            Go to Dashboard
+          </button>
+        </ng-container>
+        <ng-template #loginButtons>
+          <button mat-flat-button color="primary" routerLink="/auth/login" class="action-button primary-button" [@pulseAnimation]="pulseState">
+            <mat-icon>login</mat-icon>
+            Sign In
+          </button>
+          <button mat-stroked-button routerLink="/auth/register" class="action-button secondary-button">
+            <mat-icon>person_add</mat-icon>
+            Register
+          </button>
+        </ng-template>
+      </div>
+    </div>
+    <div class="hero-image" @slideInFromRight>
+      <div class="image-container">
+        <div class="gradient-overlay"></div>
+        <mat-icon class="floating-icon">psychology</mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="features-section" @fadeIn>
+    <div class="section-header" @slideInFromBottom>
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">Our simple process helps you create compelling exam appeals</p>
+    </div>
+    
+    <div class="features-grid" @staggerList>
+      <mat-card class="feature-card" *ngFor="let card of featureCards" [@slideInFromBottom]>
+        <div class="feature-icon">
+          <mat-icon>{{ card.icon }}</mat-icon>
+        </div>
+        <mat-card-header>
+          <mat-card-title>{{ card.title }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ card.description }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="cta-section" @fadeIn>
+    <div class="cta-content" @slideInFromBottom>
+      <h2 class="section-title">Ready to Appeal Your Exam?</h2>
+      <p class="cta-text">Join thousands of students who have successfully appealed their exam grades with AI assistance.</p>
+      
+      <div class="cta-actions">
+        <ng-container *ngIf="currentUser$ | async as user; else ctaLoginButtons">
+          <button mat-flat-button color="primary" routerLink="/new-appeal" class="action-button primary-button" [@pulseAnimation]="pulseState">
+            <mat-icon>add_circle</mat-icon>
+            Create New Appeal
+          </button>
+        </ng-container>
+        <ng-template #ctaLoginButtons>
+          <button mat-flat-button color="primary" routerLink="/auth/register" class="action-button primary-button" [@pulseAnimation]="pulseState">
+            <mat-icon>person_add</mat-icon>
+            Get Started
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,477 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Theme variables */
+:root {
+  /* Colors */
+  --primary-color: #10a37f;
+  --primary-rgb: 16, 163, 127;
+  --primary-dark: #1a7f64;
+  --primary-light: #e6f7f4;
+  --primary-hover: #1a8870;
+  
+  --accent-color: #ff6b6b;
+  --accent-rgb: 255, 107, 107;
+  
+  /* Backgrounds */
+  --background-color: #f5f7fa;
+  --card-background: #ffffff;
+  --input-background: #f8f9fa;
+  
+  /* Text */
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  
+  /* Borders and effects */
+  --border-color: #e0e0e0;
+  --hover-color: rgba(16, 163, 127, 0.04);
+  --shadow-color: rgba(0, 0, 0, 0.08);
+  
+  /* State colors */
+  --error-color: #dc3545;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+}
+
+/* Dark theme variables */
+[data-theme="dark"] {
+  /* Colors */
+  --primary-color: #10a37f;
+  --primary-rgb: 16, 163, 127;
+  --primary-dark: #1a7f64;
+  --primary-light: #1a2f2a;
+  --primary-hover: #1a8870;
+  
+  --accent-color: #ff6b6b;
+  --accent-rgb: 255, 107, 107;
+  
+  /* Backgrounds */
+  --background-color: #1a1a1a;
+  --card-background: #2d2d2d;
+  --input-background: #333333;
+  
+  /* Text */
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  
+  /* Borders and effects */
+  --border-color: #404040;
+  --hover-color: rgba(16, 163, 127, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.2);
+  
+  /* State colors */
+  --error-color: #ff4d4d;
+  --success-color: #4caf50;
+  --warning-color: #ffb74d;
+  --info-color: #4fc3f7;
+}
+
+/* Global styles */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Söhne', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, "Helvetica Neue", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Material theme customization */
+@include mat.core();
+
+$primary-palette: (
+  50: #e6f7f4,
+  100: #c0e9e2,
+  200: #97dacf,
+  300: #6dcbbc,
+  400: #4dbfad,
+  500: #10a37f,
+  600: #0e9b77,
+  700: #0c916c,
+  800: #098762,
+  900: #057b53,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+
+$accent-palette: (
+  50: #ffeaea,
+  100: #ffcaca,
+  200: #ffa7a7,
+  300: #ff8484,
+  400: #ff6969,
+  500: #ff6b6b,
+  600: #ff6363,
+  700: #ff5858,
+  800: #ff4e4e,
+  900: #ff3d3d,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  )
+);
+
+$warn-palette: (
+  50: #fff8e1,
+  100: #ffecb3,
+  200: #ffe082,
+  300: #ffd54f,
+  400: #ffca28,
+  500: #ffc107,
+  600: #ffbb00,
+  700: #ffb300,
+  800: #ffab00,
+  900: #ff9e00,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: rgba(black, 0.87),
+    600: rgba(black, 0.87),
+    700: rgba(black, 0.87),
+    800: rgba(black, 0.87),
+    900: rgba(black, 0.87),
+  )
+);
+
+$theme: mat.define-light-theme((
+  color: (
+    primary: mat.define-palette($primary-palette),
+    accent: mat.define-palette($accent-palette),
+    warn: mat.define-palette($warn-palette),
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+@include mat.all-component-themes($theme);
+
+/* Custom component styles */
+.mat-mdc-card {
+  background-color: var(--card-background);
+  border-radius: 16px;
+  box-shadow: 0 8px 30px var(--shadow-color);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-snack-bar-container {
+  &.success-snackbar {
+    --mdc-snackbar-container-color: var(--success-color);
+    --mat-mdc-snack-bar-button-color: white;
+  }
+  
+  &.error-snackbar {
+    --mdc-snackbar-container-color: var(--error-color);
+    --mat-mdc-snack-bar-button-color: white;
+  }
+}
+
+/* Material Design overrides */
+.mat-mdc-button,
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button {
+  font-family: 'Söhne', sans-serif !important;
+  letter-spacing: -0.01em !important;
+  font-weight: 500 !important;
+  border-radius: 0.5rem !important;
+  height: 44px !important;
+  padding: 0 16px !important;
+}
+
+/* Button styles */
+.btn-primary {
+  @apply inline-flex items-center justify-center;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: all 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--primary-hover);
+  }
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center;
+  background-color: var(--card-background);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 12px 24px;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: all 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--background-color);
+  }
+}
+
+/* Card styles */
+.appeal-card {
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: all 0.2s;
+
+  &:hover {
+    box-shadow: 0 4px 6px -1px var(--shadow-color);
+  }
+}
+
+.appeal-card-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.appeal-card-content {
+  padding: 1.5rem;
+}
+
+.appeal-card-actions {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Utility classes */
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.bg-primary {
+  background-color: var(--primary-color);
+}
+
+.bg-secondary {
+  background-color: var(--card-background);
+}
+
+/* Responsive utilities */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  
+  @media (max-width: 768px) {
+    padding: 0 16px;
+  }
+}
+
+/* OpenAI-inspired design system */
+:root {
+  --primary: #10a37f;
+  --primary-hover: #1a8870;
+  --surface: #ffffff;
+  --background: #f7f7f8;
+  --text: #353740;
+  --text-secondary: #6e6e80;
+  --border: #e5e5e5;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Global styles */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Söhne', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--background);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Material Design overrides */
+.mat-mdc-card {
+  @apply rounded-xl border border-gray-200;
+  box-shadow: var(--shadow);
+}
+
+.mat-mdc-button,
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button {
+  font-family: 'Söhne', sans-serif !important;
+  letter-spacing: -0.01em !important;
+  font-weight: 500 !important;
+  border-radius: 0.5rem !important;
+  height: 44px !important;
+  padding: 0 16px !important;
+}
+
+/* OpenAI-style buttons */
+.btn-primary {
+  @apply inline-flex items-center justify-center;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center;
+  background-color: white;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 12px 24px;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: var(--background);
+}
+
+/* Card styles */
+.appeal-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+
+.appeal-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.appeal-card-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.appeal-card-content {
+  padding: 1.5rem;
+}
+
+.appeal-card-actions {
+  padding: 1rem 1.5rem;
+  background-color: var(--background);
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* Status badges */
+.status-badge {
+  @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+}
+
+.status-completed {
+  background-color: #e9f9f0;
+  color: #027a48;
+}
+
+.status-processing {
+  background-color: #eff8ff;
+  color: #1a56db;
+}
+
+.status-failed {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+/* Form styles */
+.form-field {
+  @apply mb-6;
+}
+
+.form-label {
+  @apply block text-sm font-medium mb-2;
+  color: var(--text);
+}
+
+.form-input {
+  @apply w-full px-4 py-3 rounded-lg border;
+  border-color: var(--border);
+  transition: all 0.2s;
+}
+
+.form-input:focus {
+  @apply outline-none ring-2;
+  border-color: var(--primary);
+  ring-color: var(--primary);
+  ring-opacity: 0.2;
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Custom utility classes */
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600;
+}
+
+.hover-scale {
+  @apply transition-transform duration-200 hover:scale-105;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .container {
+    @apply px-4;
+  }
+}

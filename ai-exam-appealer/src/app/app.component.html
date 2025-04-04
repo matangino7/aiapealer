@@ -1,0 +1,40 @@
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <!-- Header -->
+  <header class="bg-white dark:bg-gray-800 shadow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center">
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">AI Exam Appealer</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button *ngIf="!(authService.user$ | async)" routerLink="/auth/login" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+            Login
+          </button>
+          <button *ngIf="!(authService.user$ | async)" routerLink="/auth/register" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+            Register
+          </button>
+          <div *ngIf="authService.user$ | async as user" class="flex items-center space-x-4">
+            <span class="text-gray-700 dark:text-gray-300">{{ user.email }}</span>
+            <button (click)="authService.logout()" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+              Logout
+            </button>
+    </div>
+      </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <router-outlet></router-outlet>
+</main>
+
+  <!-- Footer -->
+  <footer class="bg-white dark:bg-gray-800 shadow mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <p class="text-center text-gray-500 dark:text-gray-400">
+        &copy; {{ currentYear }} AI Exam Appealer. All rights reserved.
+      </p>
+    </div>
+  </footer>
+</div>

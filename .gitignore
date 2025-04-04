@@ -1,0 +1,166 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Firebase
+.firebase/
+*-debug.log
+.runtimeconfig.json
+
+# Testing
+/coverage
+/.nyc_output
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+# Angular specific
+/ai-exam-appealer/dist
+/ai-exam-appealer/tmp
+/ai-exam-appealer/out-tsc
+/ai-exam-appealer/bazel-out
+/ai-exam-appealer/.angular/cache
+/ai-exam-appealer/.angular/cache/**/*
+
+# Dependencies
+/ai-exam-appealer/node_modules
+/ai-exam-appealer/.pnp
+/ai-exam-appealer/.pnp.js
+
+# Testing
+/ai-exam-appealer/coverage
+/ai-exam-appealer/.nyc_output
+/ai-exam-appealer/testem.log
+
+# Production
+/ai-exam-appealer/build
+/ai-exam-appealer/dist-ssr
+
+# IDEs and editors
+/ai-exam-appealer/.idea
+/ai-exam-appealer/.vscode/*
+!/ai-exam-appealer/.vscode/settings.json
+!/ai-exam-appealer/.vscode/tasks.json
+!/ai-exam-appealer/.vscode/launch.json
+!/ai-exam-appealer/.vscode/extensions.json
+/ai-exam-appealer/*.sublime-workspace
+/ai-exam-appealer/*.sublime-project
+
+# Environment files
+/ai-exam-appealer/.env
+/ai-exam-appealer/.env.local
+/ai-exam-appealer/.env.development.local
+/ai-exam-appealer/.env.test.local
+/ai-exam-appealer/.env.production.local
+/ai-exam-appealer/src/environments/*.ts
+!/ai-exam-appealer/src/environments/environment.ts
+!/ai-exam-appealer/src/environments/environment.prod.ts
+
+# Firebase
+/ai-exam-appealer/.firebase/
+/ai-exam-appealer/*-debug.log
+/ai-exam-appealer/.runtimeconfig.json
+/ai-exam-appealer/firebase-debug.log
+/ai-exam-appealer/firebase-debug.*.log
+/ai-exam-appealer/.firebase/
+
+# Logs
+/ai-exam-appealer/logs
+/ai-exam-appealer/*.log
+/ai-exam-appealer/npm-debug.log*
+/ai-exam-appealer/yarn-debug.log*
+/ai-exam-appealer/yarn-error.log*
+/ai-exam-appealer/lerna-debug.log*
+
+# System Files
+/ai-exam-appealer/.DS_Store
+/ai-exam-appealer/Thumbs.db
+/ai-exam-appealer/*.swp
+/ai-exam-appealer/*.swo
+/ai-exam-appealer/*~
+
+# Optional npm cache directory
+/ai-exam-appealer/.npm
+
+# Optional eslint cache
+/ai-exam-appealer/.eslintcache
+
+# Optional stylelint cache
+/ai-exam-appealer/.stylelintcache
+
+# Yarn Integrity file
+/ai-exam-appealer/.yarn-integrity
+
+# TypeScript cache
+/ai-exam-appealer/*.tsbuildinfo
+
+# Optional REPL history
+/ai-exam-appealer/.node_repl_history
+
+# Output of 'npm pack'
+/ai-exam-appealer/*.tgz
+
+# Yarn v2
+/ai-exam-appealer/.yarn/cache
+/ai-exam-appealer/.yarn/unplugged
+/ai-exam-appealer/.yarn/build-state.yml
+/ai-exam-appealer/.yarn/install-state.gz
+/ai-exam-appealer/.pnp.*
+
+# Root level files
+.DS_Store
+Thumbs.db
+*.log

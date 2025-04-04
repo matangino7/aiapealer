@@ -1,0 +1,102 @@
+<div class="upload-container">
+  <div class="upload-card">
+    <h1 class="upload-title">Submit New Appeal</h1>
+    <p class="upload-description">Upload your exam document and provide the required information to start the appeal process.</p>
+
+    <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()" class="upload-form">
+      <div class="form-field">
+        <label class="form-label" for="examName">Exam Name</label>
+        <input
+          id="examName"
+          type="text"
+          formControlName="examName"
+          class="form-input"
+          placeholder="e.g. Final Exam"
+          [class.error]="uploadForm.get('examName')?.invalid && uploadForm.get('examName')?.touched"
+        >
+        <div class="error-message" *ngIf="uploadForm.get('examName')?.invalid && uploadForm.get('examName')?.touched">
+          {{ getErrorMessage('examName') }}
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="courseCode">Course Code</label>
+        <input
+          id="courseCode"
+          type="text"
+          formControlName="courseCode"
+          class="form-input"
+          placeholder="e.g. CS101"
+          [class.error]="uploadForm.get('courseCode')?.invalid && uploadForm.get('courseCode')?.touched"
+        >
+        <div class="error-message" *ngIf="uploadForm.get('courseCode')?.invalid && uploadForm.get('courseCode')?.touched">
+          {{ getErrorMessage('courseCode') }}
+        </div>
+      </div>
+
+      <div 
+        class="file-upload-field"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+      >
+        <input
+          type="file"
+          id="file"
+          (change)="onFileSelected($event)"
+          accept=".pdf,.doc,.docx"
+          class="file-input"
+          #fileInput
+        >
+        <div 
+          class="file-upload-area"
+          [class.dragging]="isDragging"
+          [class.has-file]="selectedFile"
+          (click)="fileInput.click()"
+        >
+          <mat-icon>{{ selectedFile ? 'description' : 'cloud_upload' }}</mat-icon>
+          <ng-container *ngIf="!selectedFile">
+            <div class="upload-text">
+              <span class="primary-text">Choose a file</span> or drag it here
+              <div class="secondary-text">PDF, DOC, DOCX (max. 10MB)</div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="selectedFile">
+            <div class="selected-file">
+              <div class="file-name">{{ selectedFile.name }}</div>
+              <div class="file-size">{{ (selectedFile.size / 1024 / 1024).toFixed(1) }} MB</div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <mat-progress-bar
+        *ngIf="isUploading"
+        mode="determinate"
+        [value]="uploadProgress"
+        class="upload-progress"
+      ></mat-progress-bar>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          mat-button
+          class="btn-secondary"
+          routerLink="/appeals"
+          [disabled]="isUploading"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          mat-flat-button
+          class="btn-primary"
+          [disabled]="!uploadForm.valid || !selectedFile || isUploading"
+        >
+          <mat-icon *ngIf="!isUploading">upload</mat-icon>
+          <span>{{ isUploading ? 'Uploading...' : 'Submit Appeal' }}</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

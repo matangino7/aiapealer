@@ -1,0 +1,1 @@
+await this.authService.register(email, password, displayName); 
