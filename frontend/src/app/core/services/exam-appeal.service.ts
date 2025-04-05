@@ -80,7 +80,7 @@ export class ExamAppealService {
     await deleteDoc(appealRef);
   }
 
-  async processAppeal(appeal: ExamAppeal, selectedFile: File, user: string): Promise<void> {
+  async processAppeal(appeal: ExamAppeal, files: File[], user: string): Promise<void> {
     const appealRef = doc(this.firestore, this.appealsCollection, appeal.id);
   
     // Step 1: Update to 'processing'
@@ -90,10 +90,17 @@ export class ExamAppealService {
     });
   
     try {
-      // Step 2: Send file to your Python Cloud Function
+      // Step 2: Send files to your Python Cloud Function
       const formData = new FormData();
-      formData.append('file', selectedFile);
-      formData.append('appeal_id', appeal.id);  
+      
+      // Add each file with the key 'file' as expected by the backend
+      files.forEach(file => {
+        formData.append('file', file);
+      });
+      
+      formData.append('appeal_id', appeal.id);
+      formData.append('file_count', files.length.toString());
+      
       const response = await fetch('http://localhost:8080', {
         method: 'POST',
         headers: {

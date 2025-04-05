@@ -1,7 +1,7 @@
 <div class="upload-container">
   <div class="upload-card">
     <h1 class="upload-title">Submit New Appeal</h1>
-    <p class="upload-description">Upload your exam document and provide the required information to start the appeal process.</p>
+    <p class="upload-description">Upload your exam documents and provide the required information to start the appeal process.</p>
 
     <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()" class="upload-form">
       <div class="form-field">
@@ -16,7 +16,6 @@
         >
       </div>
 
-
       <div 
         class="file-upload-field"
         (dragover)="onDragOver($event)"
@@ -27,27 +26,38 @@
           type="file"
           id="file"
           (change)="onFileSelected($event)"
-          accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.txt"
+          accept=".pdf,.png,.jpg,.jpeg"
           class="file-input"
           #fileInput
+          multiple
         >
         <div 
           class="file-upload-area"
           [class.dragging]="isDragging"
-          [class.has-file]="selectedFile"
+          [class.has-files]="selectedFiles.length > 0"
           (click)="fileInput.click()"
         >
-          <mat-icon>{{ selectedFile ? 'description' : 'cloud_upload' }}</mat-icon>
-          <ng-container *ngIf="!selectedFile">
+          <mat-icon>{{ selectedFiles.length > 0 ? 'description' : 'cloud_upload' }}</mat-icon>
+          <ng-container *ngIf="selectedFiles.length === 0">
             <div class="upload-text">
-              <span class="primary-text">Choose a file</span> or drag it here
-              <div class="secondary-text">PDF, DOC, DOCX, PNG, JPG, TXT (max. 10MB)</div>
+              <span class="primary-text">Choose files</span> or drag them here
+              <div class="secondary-text">PDF, PNG, JPG, JPEG (max. 30 files, 10MB each)</div>
             </div>
           </ng-container>
-          <ng-container *ngIf="selectedFile">
-            <div class="selected-file">
-              <div class="file-name">{{ selectedFile.name }}</div>
-              <div class="file-size">{{ (selectedFile.size / 1024 / 1024).toFixed(1) }} MB</div>
+          <ng-container *ngIf="selectedFiles.length > 0">
+            <div class="selected-files">
+              <div class="files-count">{{ selectedFiles.length }} file(s) selected</div>
+              <div class="files-list">
+                <div *ngFor="let file of selectedFiles; let i = index" class="file-item">
+                  <div class="file-info">
+                    <div class="file-name">{{ file.name }}</div>
+                    <div class="file-size">{{ (file.size / 1024 / 1024).toFixed(1) }} MB</div>
+                  </div>
+                  <button type="button" class="remove-file" (click)="removeFile(i)">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </div>
+              </div>
             </div>
           </ng-container>
         </div>
@@ -74,7 +84,7 @@
           type="submit"
           mat-flat-button
           class="btn-primary"
-          [disabled]="!uploadForm.valid || !selectedFile || isUploading"
+          [disabled]="!uploadForm.valid || selectedFiles.length === 0 || isUploading"
         >
           <mat-icon *ngIf="!isUploading">upload</mat-icon>
           <span>{{ isUploading ? 'Uploading...' : 'Submit Appeal' }}</span>

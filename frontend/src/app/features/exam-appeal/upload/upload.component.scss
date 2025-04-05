@@ -107,7 +107,7 @@
     background-color: rgba(16, 163, 127, 0.1);
   }
 
-  &.has-file {
+  &.has-files {
     border-style: solid;
     border-color: var(--primary);
     background-color: rgba(16, 163, 127, 0.05);
@@ -137,20 +137,105 @@
   }
 }
 
-.selected-file {
+.selected-files {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  
-  .file-name {
-    color: var(--text);
-    font-weight: 500;
-    font-size: 0.875rem;
+  gap: 12px;
+}
+
+.files-count {
+  color: var(--text);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.files-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 8px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
   }
-  
-  .file-size {
-    color: var(--text-secondary);
-    font-size: 0.75rem;
+
+  &::-webkit-scrollbar-track {
+    background: var(--background);
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+
+    &:hover {
+      background: var(--text-secondary);
+    }
+  }
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: var(--primary);
+    background-color: rgba(16, 163, 127, 0.05);
+  }
+}
+
+.file-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.file-name {
+  color: var(--text);
+  font-weight: 500;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-size {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.remove-file {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: rgba(220, 38, 38, 0.1);
+    color: #dc2626;
+  }
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
   }
 }
 

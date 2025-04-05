@@ -10,9 +10,6 @@ from PIL import Image
 import pytesseract
 import openai
 from flask import jsonify, make_response
-import multiprocessing
-multiprocessing.set_start_method('spawn')
-
 
 
 # Initialize Firebase Admin SDK
@@ -21,28 +18,20 @@ firebase_admin.initialize_app(cred)
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
 # --- Utility functions ---
-# def verify_firebase_token(id_token):
-#     try:
-#         decoded_token = auth.verify_id_token(id_token)
-#         return decoded_token["uid"]
-#     except Exception as e:
-#         print("Token verification failed:", e)
-#         return None
-
 def extract_text_from_file(file_path, content_type):
+    extracted_text = ""
     if content_type == "application/pdf":
         reader = PdfReader(file_path)
-        return "\n".join([page.extract_text() or "" for page in reader.pages])
-
+        # Limit to 30 pages
+        for page in reader.pages[:30]:
+            extracted_text += page.extract_text() or ""
     elif content_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
         doc = Document(file_path)
-        return "\n".join(p.text for p in doc.paragraphs)
-
+        extracted_text = "\n".join(p.text for p in doc.paragraphs)
     elif content_type.startswith("image/"):
         image = Image.open(file_path)
-        return pytesseract.image_to_string(image)
-
-    return "Unsupported file type."
+        extracted_text = pytesseract.image_to_string(image)
+    return extracted_text
 
 def generate_appeal(text):
     response = openai.ChatCompletion.create(
@@ -76,22 +65,32 @@ def handle_exam_upload(request):
         return jsonify({"error": "Only POST allowed"}), 405, response_headers
 
     id_token = request.headers.get("Authorization", "").replace("Bearer ", "")
-    file = request.files.get('file')
+    files = request.files.getlist('file')
     appeal_id = request.form.get('appeal_id')
-    if not file or not appeal_id:
-        return jsonify({"error": "Missing file"}), 400, response_headers
+    print(files)
 
-    with tempfile.NamedTemporaryFile(delete=False) as tmp:
-        file.save(tmp.name)
-        content_type = file.content_type
-        extracted_text = extract_text_from_file(tmp.name, content_type)
-        appeal = 'works'
+    if not files or not appeal_id:
+        return jsonify({"error": "Missing file or appeal_id"}), 400, response_headers
 
+    # Make sure the number of files is within the limit (30 files or 30 pages for PDFs)
+    if len(files) > 30:
+        return jsonify({"error": "Too many files. Max 30 files are allowed."}), 400, response_headers
+
+    extracted_text = ""
+    for file in files:
+        with tempfile.NamedTemporaryFile(delete=False) as tmp:
+            file.save(tmp.name)
+            content_type = file.content_type
+            extracted_text += extract_text_from_file(tmp.name, content_type)
+
+    # appeal = generate_appeal(extracted_text)
+
+    # Save to Firestore
     db = firestore.Client()
     db.collection("appeals").document(appeal_id).update({
         "original_text": extracted_text,
-        "appeal": appeal,
+        "appeal": 'works',
         "status": 'processing',
     })
 
-    return jsonify({"message": "Appeal created", "appeal": appeal}), 200, response_headers
+    return jsonify({"message": "Appeal created", "appeal": "appeal"}), 200, response_headers

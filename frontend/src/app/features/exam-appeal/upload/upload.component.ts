@@ -33,13 +33,14 @@ export class UploadComponent {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   
   uploadForm: FormGroup;
-  selectedFile: File | null = null;
+  selectedFiles: File[] = [];
   isUploading = false;
   uploadProgress = 0;
   isDragging = false;
 
   private readonly maxFileSize = 10 * 1024 * 1024; // 10MB
-  private readonly allowedFileTypes = ['.pdf', '.doc', '.docx', '.png', '.jpg', '.jpeg', '.jpeg', '.txt'];
+  private readonly maxFiles = 30;
+  private readonly allowedFileTypes = ['.pdf', '.png', '.jpg', '.jpeg'];
 
   constructor(
     private fb: FormBuilder,
@@ -56,10 +57,8 @@ export class UploadComponent {
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      if (this.validateFile(file)) {
-        this.selectedFile = file;
-      }
+      const files = Array.from(input.files);
+      this.handleFiles(files);
     }
   }
 
@@ -82,11 +81,26 @@ export class UploadComponent {
 
     const files = event.dataTransfer?.files;
     if (files && files.length > 0) {
-      const file = files[0];
-      if (this.validateFile(file)) {
-        this.selectedFile = file;
-      }
+      const fileArray = Array.from(files);
+      this.handleFiles(fileArray);
     }
+  }
+
+  private handleFiles(files: File[]): void {
+    // Check if adding these files would exceed the maximum
+    if (this.selectedFiles.length + files.length > this.maxFiles) {
+      this.snackBar.open(`Maximum ${this.maxFiles} files allowed`, 'Close', {
+        duration: 5000,
+        panelClass: 'error-snackbar'
+      });
+      return;
+    }
+
+    // Validate each file
+    const validFiles = files.filter(file => this.validateFile(file));
+    
+    // Add valid files to the selection
+    this.selectedFiles = [...this.selectedFiles, ...validFiles];
   }
 
   private validateFile(file: File): boolean {
@@ -102,7 +116,7 @@ export class UploadComponent {
     // Check file type
     const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
     if (!this.allowedFileTypes.includes(fileExtension)) {
-      this.snackBar.open('Only PDF, DOC, DOCX, PNG, JPG, and TXT files are allowed', 'Close', {
+      this.snackBar.open('Only PDF, PNG, JPG, and JPEG files are allowed', 'Close', {
         duration: 5000,
         panelClass: 'error-snackbar'
       });
@@ -112,8 +126,12 @@ export class UploadComponent {
     return true;
   }
 
+  removeFile(index: number): void {
+    this.selectedFiles = this.selectedFiles.filter((_, i) => i !== index);
+  }
+
   async onSubmit(): Promise<void> {
-    if (this.uploadForm.valid && this.selectedFile) {
+    if (this.uploadForm.valid && this.selectedFiles.length > 0) {
       this.isUploading = true;
       this.uploadProgress = 0;
       const user = this.authService.userSubject.value;
@@ -130,13 +148,13 @@ export class UploadComponent {
         };
         
         // Create the appeal in Firestore
-        this.uploadProgress = 50;
+        this.uploadProgress = 30;
         const appeal = await this.examAppealService.createAppeal(appealFormData);
 
-        // Process the appeal
-        this.uploadProgress = 80;
+        // Process the appeal with multiple files
+        this.uploadProgress = 60;
         if (appeal) {
-          await this.examAppealService.processAppeal(appeal, this.selectedFile, user?.uid!);
+          await this.examAppealService.processAppeal(appeal, this.selectedFiles, user?.uid!);
         }
         this.uploadProgress = 100;
 
