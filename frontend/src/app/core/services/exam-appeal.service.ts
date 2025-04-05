@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, doc, setDoc, updateDoc, deleteDoc, getDoc, DocumentData } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, setDoc, updateDoc, deleteDoc, getDoc, DocumentData, query, where, getDocs } from '@angular/fire/firestore';
 import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
 import { Observable, from, map, of } from 'rxjs';
 import { ExamAppeal, ExamAppealFormData } from '../models/exam-appeal.model';
@@ -30,12 +30,18 @@ export class ExamAppealService {
       return of([]);
     }
 
+    // Use the Firebase JavaScript SDK directly
     const appealsRef = collection(this.firestore, this.appealsCollection);
-    return collectionData(appealsRef, { idField: 'id' }).pipe(
-      map(appeals => 
-        appeals
-          .filter(appeal => (appeal as any).userId === user.uid)
-          .map(appeal => this.convertToExamAppeal(appeal as DocumentData & { id: string }))
+    
+    // Create a query using the Firebase SDK
+    const q = query(appealsRef, where('userId', '==', user.uid));
+    
+    // Use the Firebase SDK's getDocs function
+    return from(getDocs(q)).pipe(
+      map(querySnapshot => 
+        querySnapshot.docs.map(doc => 
+          this.convertToExamAppeal({ id: doc.id, ...doc.data() } as DocumentData & { id: string })
+        )
       )
     );
   }
