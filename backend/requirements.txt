@@ -1,7 +1,7 @@
 Flask==2.2.5
 functions-framework==3.4.0
 
-openai==1.14.3
+openai==0.28
 
 PyPDF2==3.0.1
 python-docx==1.1.0
