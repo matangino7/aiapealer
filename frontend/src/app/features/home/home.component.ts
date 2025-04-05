@@ -107,8 +107,8 @@ export class HomeComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    // Create animated title effect
-    this.animatedTitle$ = interval(100).pipe(
+    // Create animated title effect with slower typing
+    this.animatedTitle$ = interval(300).pipe(
       take(this.titleWords.length),
       map(i => this.titleWords.slice(0, i + 1).join(' '))
     );

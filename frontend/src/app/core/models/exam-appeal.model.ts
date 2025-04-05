@@ -9,6 +9,8 @@ export interface ExamAppeal {
   subject?: string;
   course?: string;
   examName: string;
+  originalText?: string;
+  generatedAppeal?: string;
 }
 
 export interface ExamAppealFormData {

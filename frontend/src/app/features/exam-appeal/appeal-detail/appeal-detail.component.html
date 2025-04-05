@@ -1,1 +1,100 @@
-<p>appeal-detail works!</p>
+<div class="appeal-detail-container">
+  <div *ngIf="isLoading" class="loading-container">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <p>Loading appeal details...</p>
+  </div>
+
+  <div *ngIf="error" class="error-container">
+    <mat-card>
+      <mat-card-content>
+        <p class="error-message">{{ error }}</p>
+        <button mat-raised-button color="primary" routerLink="/appeals">Back to Appeals</button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="!isLoading && !error && appeal" class="appeal-content">
+    <mat-card class="appeal-card">
+      <mat-card-header>
+        <mat-card-title>{{ appeal.title }}</mat-card-title>
+        <mat-card-subtitle>
+          <span class="status-badge" [ngClass]="'status-' + appeal.status">
+            {{ appeal.status | titlecase }}
+          </span>
+          <span class="date-info">Created: {{ appeal.createdAt | date:'medium' }}</span>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="appeal-details">
+          <div class="detail-row">
+            <span class="detail-label">Exam Name:</span>
+            <span class="detail-value">{{ appeal.examName }}</span>
+          </div>
+          
+          <div class="detail-row" *ngIf="appeal.subject">
+            <span class="detail-label">Subject:</span>
+            <span class="detail-value">{{ appeal.subject }}</span>
+          </div>
+          
+          <div class="detail-row" *ngIf="appeal.course">
+            <span class="detail-label">Course:</span>
+            <span class="detail-value">{{ appeal.course }}</span>
+          </div>
+          
+          <div class="detail-row">
+            <span class="detail-label">Last Updated:</span>
+            <span class="detail-value">{{ appeal.updatedAt | date:'medium' }}</span>
+          </div>
+        </div>
+
+        <!-- Original Text Section -->
+        <div class="text-section" *ngIf="appeal.originalText">
+          <h3>Original Exam Content</h3>
+          <div class="text-content">
+            <p>{{ appeal.originalText }}</p>
+          </div>
+        </div>
+
+        <!-- Generated Appeal Section -->
+        <div class="text-section" *ngIf="appeal.generatedAppeal">
+          <h3>Generated Appeal</h3>
+          <div class="text-content">
+            <p>{{ appeal.generatedAppeal }}</p>
+          </div>
+        </div>
+
+        <div class="feedback-section" *ngIf="appeal.feedback">
+          <h3>Feedback</h3>
+          <p>{{ appeal.feedback }}</p>
+        </div>
+
+        <div class="status-section">
+          <div *ngIf="appeal.status === 'processing'" class="processing-status">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            <p>Your appeal is currently being processed. This may take a few minutes.</p>
+          </div>
+          
+          <div *ngIf="appeal.status === 'completed'" class="completed-status">
+            <mat-icon class="status-icon">check_circle</mat-icon>
+            <p>Your appeal has been successfully processed.</p>
+          </div>
+          
+          <div *ngIf="appeal.status === 'failed'" class="failed-status">
+            <mat-icon class="status-icon">error</mat-icon>
+            <p>There was an issue processing your appeal. Please try again or contact support.</p>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-button color="primary" routerLink="/appeals">
+          <mat-icon>arrow_back</mat-icon> Back to Appeals
+        </button>
+        <button mat-button color="warn" (click)="deleteAppeal()" *ngIf="appeal.status !== 'processing'">
+          <mat-icon>delete</mat-icon> Delete Appeal
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

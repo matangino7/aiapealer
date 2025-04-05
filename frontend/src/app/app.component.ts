@@ -142,18 +142,25 @@ import { AuthService } from './core/services/auth.service';
       flex-direction: column;
       height: 100vh;
       background-color: var(--background-color);
+      overflow-x: hidden;
+      position: relative;
     }
 
     .app-sidenav-container {
       flex: 1;
+      overflow-x: hidden;
+      position: relative;
     }
 
     .app-sidenav {
       width: 260px;
+      max-width: 260px;
       background-color: var(--card-background);
       border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
     .app-toolbar {
@@ -238,6 +245,8 @@ import { AuthService } from './core/services/auth.service';
 
     .app-sidenav-content {
       background-color: var(--background-color);
+      overflow-x: hidden;
+      position: relative;
     }
 
     .content-container {
@@ -252,12 +261,16 @@ import { AuthService } from './core/services/auth.service';
 
     mat-nav-list {
       padding: 8px 0;
+      overflow-x: hidden;
     }
 
     .mat-mdc-list-item {
       margin: 4px 8px;
       border-radius: 8px;
       transition: all 0.3s ease;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
       
       &.active {
         background-color: var(--primary-color);
@@ -276,11 +289,15 @@ import { AuthService } from './core/services/auth.service';
       mat-icon {
         color: var(--text-secondary);
         transition: color 0.3s ease;
+        flex-shrink: 0;
       }
       
       span {
         color: var(--text-primary);
         transition: color 0.3s ease;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
 
@@ -361,13 +378,18 @@ import { AuthService } from './core/services/auth.service';
 
     .theme-toggle {
       flex: 1;
+      overflow: hidden;
       
       ::ng-deep .mdc-form-field {
         width: 100%;
+        overflow: hidden;
       }
       
       ::ng-deep .mdc-label {
         color: var(--text-primary);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       
       ::ng-deep .mdc-switch__track {
@@ -375,6 +397,14 @@ import { AuthService } from './core/services/auth.service';
       }
       
       ::ng-deep .mdc-switch__handle-track {
+        background-color: var(--primary-color);
+      }
+      
+      ::ng-deep .mdc-switch--checked .mdc-switch__track {
+        background-color: var(--primary-color);
+      }
+      
+      ::ng-deep .mdc-switch--checked .mdc-switch__handle-track {
         background-color: var(--primary-color);
       }
     }

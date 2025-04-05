@@ -49,7 +49,7 @@ export class ExamAppealService {
   getAppealById(id: string): Observable<ExamAppeal | undefined> {
     const appealRef = doc(this.firestore, this.appealsCollection, id);
     return from(getDoc(appealRef)).pipe(
-      map(doc => doc.exists() ? { id: doc.id, ...doc.data() } as ExamAppeal : undefined)
+      map(doc => doc.exists() ? this.convertToExamAppeal({ id: doc.id, ...doc.data() } as DocumentData & { id: string }) : undefined)
     );
   }
 
@@ -145,7 +145,9 @@ export class ExamAppealService {
 
 
   private convertToExamAppeal(data: DocumentData & { id: string }): ExamAppeal {
-    return {
+    console.log('Converting data to ExamAppeal:', data);
+    
+    const appeal = {
       id: data.id,
       userId: data['userId'] as string,
       title: data['title'] as string,
@@ -156,6 +158,11 @@ export class ExamAppealService {
       subject: data['subject'] as string | undefined,
       course: data['course'] as string | undefined,
       examName: data['examName'] as string || '',
+      originalText: data['original_text'] as string | undefined,
+      generatedAppeal: data['appeal'] as string | undefined,
     };
+    
+    console.log('Converted appeal:', appeal);
+    return appeal;
   }
 } 

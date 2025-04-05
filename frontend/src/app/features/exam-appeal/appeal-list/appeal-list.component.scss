@@ -1,0 +1,177 @@
+.appeal-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.appeal-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.appeal-list-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.new-appeal-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.appeal-list-content {
+  min-height: 300px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+  
+  p {
+    margin-top: 1rem;
+    color: var(--text-secondary);
+  }
+}
+
+.no-appeals {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 0;
+  background-color: var(--card-background);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px var(--shadow-color);
+  
+  mat-icon {
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+  }
+  
+  p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    max-width: 400px;
+  }
+}
+
+.appeal-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.appeal-card {
+  background-color: var(--card-background);
+  color: var(--text-primary);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px var(--shadow-color);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px var(--shadow-color);
+  }
+  
+  mat-card-header {
+    padding: 1rem 1rem 0;
+    
+    mat-card-title {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+    
+    mat-card-subtitle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+  }
+  
+  mat-card-content {
+    padding: 0 1rem;
+  }
+  
+  mat-card-actions {
+    padding: 0.5rem 1rem 1rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.appeal-date {
+  font-size: 0.75rem;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  
+  &.status-processing {
+    background-color: rgba(25, 118, 210, 0.1);
+    color: #1976d2;
+  }
+  
+  &.status-completed {
+    background-color: rgba(56, 142, 60, 0.1);
+    color: #388e3c;
+  }
+  
+  &.status-failed {
+    background-color: rgba(211, 47, 47, 0.1);
+    color: #d32f2f;
+  }
+}
+
+.appeal-preview {
+  margin: 0.5rem 0;
+  
+  .appeal-text {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 768px) {
+  .appeal-list-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .appeal-cards {
+    grid-template-columns: 1fr;
+  }
+}
