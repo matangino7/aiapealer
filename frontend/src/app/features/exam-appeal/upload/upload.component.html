@@ -14,25 +14,8 @@
           placeholder="e.g. Final Exam"
           [class.error]="uploadForm.get('examName')?.invalid && uploadForm.get('examName')?.touched"
         >
-        <div class="error-message" *ngIf="uploadForm.get('examName')?.invalid && uploadForm.get('examName')?.touched">
-          {{ getErrorMessage('examName') }}
-        </div>
       </div>
 
-      <div class="form-field">
-        <label class="form-label" for="courseCode">Course Code</label>
-        <input
-          id="courseCode"
-          type="text"
-          formControlName="courseCode"
-          class="form-input"
-          placeholder="e.g. CS101"
-          [class.error]="uploadForm.get('courseCode')?.invalid && uploadForm.get('courseCode')?.touched"
-        >
-        <div class="error-message" *ngIf="uploadForm.get('courseCode')?.invalid && uploadForm.get('courseCode')?.touched">
-          {{ getErrorMessage('courseCode') }}
-        </div>
-      </div>
 
       <div 
         class="file-upload-field"

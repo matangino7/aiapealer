@@ -37,11 +37,6 @@ import { ExamAppealService } from '../../../core/services/exam-appeal.service';
                 </div>
               </div>
               <div class="mt-2 sm:flex sm:justify-between">
-                <div class="sm:flex">
-                  <p class="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                    {{ appeal.courseCode }}
-                  </p>
-                </div>
                 <div class="mt-2 flex items-center text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
                   <p>
                     Created on {{ appeal.createdAt | date }}

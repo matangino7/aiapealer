@@ -52,14 +52,4 @@ export class AppealDetailComponent implements OnInit {
       this.isLoading = false;
     }
   }
-
-  async downloadAppeal(): Promise<void> {
-    if (this.appeal) {
-      try {
-        await this.examAppealService.downloadAppeal(this.appeal.id);
-      } catch (err) {
-        console.error('Error downloading appeal:', err);
-      }
-    }
-  }
 }

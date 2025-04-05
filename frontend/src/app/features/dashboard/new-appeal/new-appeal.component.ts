@@ -50,14 +50,6 @@ import { ExamAppealFormData } from '../../../core/models/exam-appeal.model';
               </mat-form-field>
 
               <mat-form-field appearance="outline" class="w-full">
-                <mat-label>Course Code</mat-label>
-                <input matInput formControlName="courseCode" placeholder="e.g., CS101">
-                <mat-error *ngIf="basicInfoForm.get('courseCode')?.hasError('required')">
-                  Course code is required
-                </mat-error>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline" class="w-full">
                 <mat-label>Current Grade</mat-label>
                 <input matInput formControlName="currentGrade" placeholder="e.g., B+">
                 <mat-error *ngIf="basicInfoForm.get('currentGrade')?.hasError('required')">
@@ -133,11 +125,6 @@ import { ExamAppealFormData } from '../../../core/models/exam-appeal.model';
               <div class="review-item">
                 <span class="review-label">Exam Name:</span>
                 <span class="review-value">{{ basicInfoForm.get('examName')?.value }}</span>
-              </div>
-              
-              <div class="review-item">
-                <span class="review-label">Course Code:</span>
-                <span class="review-value">{{ basicInfoForm.get('courseCode')?.value }}</span>
               </div>
               
               <div class="review-item">
@@ -243,7 +230,6 @@ export class NewAppealComponent {
   ) {
     this.basicInfoForm = this.fb.group({
       examName: ['', Validators.required],
-      courseCode: ['', Validators.required],
       currentGrade: ['', Validators.required],
       targetGrade: ['', Validators.required]
     });
@@ -266,8 +252,6 @@ export class NewAppealComponent {
           title: this.basicInfoForm.get('examName')?.value,
           description: `Appeal for ${this.basicInfoForm.get('examName')?.value}`,
           examImageUrl: '',
-          subject: this.basicInfoForm.get('courseCode')?.value,
-          course: this.basicInfoForm.get('courseCode')?.value,
           institution: '',
           originalScore: this.basicInfoForm.get('currentGrade')?.value
         };

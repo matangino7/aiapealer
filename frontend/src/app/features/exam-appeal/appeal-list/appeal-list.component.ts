@@ -62,21 +62,12 @@ import { ExamAppeal } from '../../../core/models/exam-appeal.model';
         <mat-card *ngFor="let appeal of appeals" class="appeal-card">
           <mat-card-header>
             <mat-card-title>{{ appeal.examName }}</mat-card-title>
-            <mat-card-subtitle>{{ appeal.courseCode }}</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
             <div class="appeal-details">
               <div class="detail-item">
                 <mat-icon>calendar_today</mat-icon>
                 <span>Submitted: {{ appeal.createdAt | date }}</span>
-              </div>
-              <div class="detail-item">
-                <mat-icon>school</mat-icon>
-                <span>Grade: {{ appeal.currentGrade }}</span>
-              </div>
-              <div class="detail-item">
-                <mat-icon>target</mat-icon>
-                <span>Target Grade: {{ appeal.targetGrade }}</span>
               </div>
             </div>
             <div class="appeal-status">

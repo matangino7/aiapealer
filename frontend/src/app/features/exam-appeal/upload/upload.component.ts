@@ -10,6 +10,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ExamAppealService } from '../../../core/services/exam-appeal.service';
 import { ExamAppealFormData } from '../../../core/models/exam-appeal.model';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-upload',
@@ -44,11 +45,11 @@ export class UploadComponent {
     private fb: FormBuilder,
     private examAppealService: ExamAppealService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authService: AuthService
   ) {
     this.uploadForm = this.fb.group({
       examName: ['', [Validators.required, Validators.minLength(3)]],
-      courseCode: ['', [Validators.required, Validators.pattern('^[A-Z]{2,4}[0-9]{3,4}$')]]
     });
   }
 
@@ -115,27 +116,16 @@ export class UploadComponent {
     if (this.uploadForm.valid && this.selectedFile) {
       this.isUploading = true;
       this.uploadProgress = 0;
+      const user = this.authService.userSubject.value;
 
       try {
         // Extract form values
         const examName = this.uploadForm.get('examName')?.value;
-        const courseCode = this.uploadForm.get('courseCode')?.value;
-        
-        // Upload the file first to Firebase Storage
-        this.uploadProgress = 20;
-        const fileUrl = await this.examAppealService.uploadExamAppeal(
-          this.selectedFile, 
-          examName, 
-          courseCode
-        );
         
         // Create the appeal form data
         const appealFormData: ExamAppealFormData = {
           title: examName,
-          description: `Appeal for ${examName} (${courseCode})`,
-          examImageUrl: fileUrl,
-          subject: courseCode,
-          course: courseCode,
+          description: `Appeal for ${examName}`,
           originalScore: 0
         };
         
@@ -146,7 +136,7 @@ export class UploadComponent {
         // Process the appeal
         this.uploadProgress = 80;
         if (appeal) {
-          await this.examAppealService.processAppeal(appeal);
+          await this.examAppealService.processAppeal(appeal, this.selectedFile, user?.uid!);
         }
         this.uploadProgress = 100;
 
@@ -180,20 +170,6 @@ export class UploadComponent {
         this.markFormGroupTouched(control);
       }
     });
-  }
-
-  getErrorMessage(controlName: string): string {
-    const control = this.uploadForm.get(controlName);
-    if (control?.hasError('required')) {
-      return `${controlName === 'examName' ? 'Exam name' : 'Course code'} is required`;
-    }
-    if (control?.hasError('minlength')) {
-      return 'Must be at least 3 characters';
-    }
-    if (control?.hasError('pattern')) {
-      return 'Must be in format: ABC123 or ABCD1234';
-    }
-    return '';
   }
 }
 

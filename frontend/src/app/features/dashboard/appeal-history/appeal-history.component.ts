@@ -38,7 +38,6 @@ import { ExamAppeal } from '../../../core/models/exam-appeal.model';
                 <mat-card>
                   <mat-card-header>
                     <mat-card-title>{{ appeal.examName }}</mat-card-title>
-                    <mat-card-subtitle>{{ appeal.courseCode }}</mat-card-subtitle>
                   </mat-card-header>
                   <mat-card-content>
                     <div class="mt-4">
@@ -58,10 +57,6 @@ import { ExamAppeal } from '../../../core/models/exam-appeal.model';
                     <button mat-button color="primary" (click)="viewAppeal(appeal)">
                       <mat-icon>visibility</mat-icon>
                       View
-                    </button>
-                    <button mat-button color="accent" (click)="downloadAppeal(appeal)">
-                      <mat-icon>download</mat-icon>
-                      Download
                     </button>
                     <button mat-button color="warn" (click)="deleteAppeal(appeal)">
                       <mat-icon>delete</mat-icon>
@@ -136,19 +131,6 @@ export class AppealHistoryComponent implements OnInit {
     console.log('View appeal:', appeal);
   }
 
-  async downloadAppeal(appeal: ExamAppeal) {
-    try {
-      await this.examAppealService.downloadAppeal(appeal.id);
-      this.snackBar.open('Appeal downloaded successfully!', 'Close', {
-        duration: 5000
-      });
-    } catch (error) {
-      console.error('Error downloading appeal:', error);
-      this.snackBar.open('Error downloading appeal. Please try again.', 'Close', {
-        duration: 5000
-      });
-    }
-  }
 
   async deleteAppeal(appeal: ExamAppeal) {
     if (confirm('Are you sure you want to delete this appeal?')) {
